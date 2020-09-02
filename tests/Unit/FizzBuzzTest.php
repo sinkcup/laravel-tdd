@@ -17,7 +17,9 @@ class FizzBuzzTest extends TestCase
         $this->assertEquals(1, PrintFizzBuzz::format(1));
         $this->assertEquals('Fizz', PrintFizzBuzz::format(3));
         $this->assertEquals('Buzz', PrintFizzBuzz::format(5));
-        $this->assertEquals('FizzBuzz', PrintFizzBuzz::format(15));
-        $this->assertEquals('FizzBuzz', PrintFizzBuzz::format(30));
+        $this->assertEquals('Fizz', PrintFizzBuzz::format(13));
+        $this->assertEquals('Fizz', PrintFizzBuzz::format(51));
+        $this->assertEquals('Buzz', PrintFizzBuzz::format(52));
+        $this->assertEquals('Fizz', PrintFizzBuzz::format(53));
     }
 }
