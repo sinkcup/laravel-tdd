@@ -27,9 +27,28 @@ class FizzBuzzTest extends TestCase
             ->expectsOutput('Buzz')
             ->expectsOutput('11')
             ->expectsOutput('Fizz')
-            ->expectsOutput('13')
+            ->expectsOutput('Fizz')
             ->expectsOutput('14')
-            ->expectsOutput('FizzBuzz')
+            ->expectsOutput('Fizz')
+            ->assertExitCode(0);
+
+        $this->artisan('print:fizz-buzz 50 65')
+            ->expectsOutput('Buzz')
+            ->expectsOutput('Fizz')
+            ->expectsOutput('Buzz')
+            ->expectsOutput('Fizz')
+            ->expectsOutput('Fizz')
+            ->expectsOutput('Buzz')
+            ->expectsOutput('Buzz')
+            ->expectsOutput('Fizz')
+            ->expectsOutput('Buzz')
+            ->expectsOutput('Buzz')
+            ->expectsOutput('Fizz')
+            ->expectsOutput('61')
+            ->expectsOutput('62')
+            ->expectsOutput('Fizz')
+            ->expectsOutput('64')
+            ->expectsOutput('Buzz')
             ->assertExitCode(0);
     }
 }
