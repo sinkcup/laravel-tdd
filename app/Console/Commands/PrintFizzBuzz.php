@@ -20,13 +20,12 @@ class PrintFizzBuzz extends Command
 
     public static function format($number)
     {
-        $result = '';
-        if ($number % 3 == 0) {
+        $result = $number;
+        if ($number % 3 == 0 || strpos("$number", '3') !== false) {
             $result = 'Fizz';
+        } elseif ($number % 5 == 0 || strpos("$number", '5') !== false) {
+            $result = 'Buzz';
         }
-        if ($number % 5 == 0) {
-            $result .= 'Buzz';
-        }
-        return $result ?: $number;
+        return $result;
     }
 }
