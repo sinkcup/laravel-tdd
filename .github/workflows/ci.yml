@@ -23,6 +23,6 @@ jobs:
           docker-php-ext-enable xdebug
           curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
           composer install
-          ./vendor/bin/phpunit --coverage-clover coverage.xml --coverage-filter app/ tests/
+          ./vendor/bin/phpunit --coverage-clover coverage.xml tests/
       - name: codecov
         uses: codecov/codecov-action@v1
