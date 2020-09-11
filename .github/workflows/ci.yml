@@ -25,6 +25,6 @@ jobs:
           composer install
           cp .env.example .env
           php artisan key:generate
-          ./vendor/bin/phpunit --coverage-clover coverage.xml tests/
+          ./vendor/bin/phpunit tests/
       - name: codecov
         uses: codecov/codecov-action@v1
