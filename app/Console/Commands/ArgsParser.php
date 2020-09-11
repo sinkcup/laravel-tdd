@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 class ArgsParser
 {
-    public static $dataTypes = [
+    public static $argDataTypes = [
         'l' => 'bool',
         'p' => 'int',
         'd' => 'string',
@@ -18,40 +18,54 @@ class ArgsParser
         'int' => 0,
         'string' => '',
     ];
-    public static function parse(string $str) {
+
+    public static function getArgDefaultValues() {
         $result = [];
-        foreach (self::$dataTypes as $arg => $dataType) {
+        foreach (self::$argDataTypes as $arg => $dataType) {
             $result[$arg] = self::$defaultValues[$dataType];
         }
-        foreach(explode('-', $str) as $item) {
+        return $result;
+    }
+
+    public static function parse(string $str)
+    {
+        $result = self::getArgDefaultValues();
+        foreach (explode('-', $str) as $item) {
             $keyAndValue = explode(' ', $item);
             if (empty($keyAndValue[0])) {
                 continue;
             }
-            if (!isset(self::$dataTypes[$keyAndValue[0]])) {
-                throw new \InvalidArgumentException('illegal argument: -' . $keyAndValue[0]);
-            }
-            switch (self::$dataTypes[$keyAndValue[0]]) {
-                case 'bool':
-                    if (isset($keyAndValue[1]) && !empty($keyAndValue[1])) {
-                        throw new \InvalidArgumentException('invalid argument: -' . $keyAndValue[0] . ' should has no value');
-                    }
-                    $result[$keyAndValue[0]] = true;
-                    break;
-                case 'int':
-                    if (!isset($keyAndValue[1]) || !is_numeric($keyAndValue[1])) {
-                        throw new \InvalidArgumentException('invalid argument: -' . $keyAndValue[0] . ' should be int');
-                    }
-                    $result[$keyAndValue[0]] = intval($keyAndValue[1]);
-                    break;
-                case 'string':
-                    if (!isset($keyAndValue[1]) || empty($keyAndValue[1])) {
-                        throw new \InvalidArgumentException('invalid argument: -' . $keyAndValue[0] . ' should be string');
-                    }
-                    $result[$keyAndValue[0]] = $keyAndValue[1];
-                    break;
-            }
+            $result[$keyAndValue[0]] = self::formatValue($keyAndValue);
         }
         return $result;
+    }
+
+    public static function formatValue(array $keyAndValue)
+    {
+        $value = null;
+        if (!isset(self::$argDataTypes[$keyAndValue[0]])) {
+            throw new \InvalidArgumentException('illegal argument: -' . $keyAndValue[0]);
+        }
+        switch (self::$argDataTypes[$keyAndValue[0]]) {
+            case 'bool':
+                if (isset($keyAndValue[1]) && !empty($keyAndValue[1])) {
+                    throw new \InvalidArgumentException('invalid argument: -' . $keyAndValue[0] . ' should has no value');
+                }
+                $value = true;
+                break;
+            case 'int':
+                if (!isset($keyAndValue[1]) || !is_numeric($keyAndValue[1])) {
+                    throw new \InvalidArgumentException('invalid argument: -' . $keyAndValue[0] . ' should be int');
+                }
+                $value = intval($keyAndValue[1]);
+                break;
+            case 'string':
+                if (!isset($keyAndValue[1]) || empty($keyAndValue[1])) {
+                    throw new \InvalidArgumentException('invalid argument: -' . $keyAndValue[0] . ' should be string');
+                }
+                $value = $keyAndValue[1];
+                break;
+        }
+        return $value;
     }
 }
